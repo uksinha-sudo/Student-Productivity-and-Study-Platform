@@ -3,5 +3,6 @@ I will be building this site slowly, version by version and improve it everyday
 
 
 -> Added Sign up and Login feature for user
+
 -> Defined db schema and models for User, Subjects, Notes
 
