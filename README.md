@@ -6,3 +6,11 @@ I will be building this site slowly, version by version and improve it everyday
 
 -> Defined db schema and models for User, Subjects, Notes
 
+-> Created user authentication middleware
+
+-> updated login jwt creation to match the middleware
+
+-> added profile endpoint
+
+-> added profile update enpoint for user
+

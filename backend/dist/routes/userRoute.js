@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import { userModel } from "../Schema/db.js";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import authMiddleware from "../middleware.js";
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 export const userRouter = Router();
@@ -43,7 +44,7 @@ userRouter.post("/login", async (req, res) => {
     try {
         const existingUser = await userModel.findOne({
             email
-        });
+        }).select("+password");
         if (!existingUser) {
             return res.status(404).json({
                 messsage: "User not found"
@@ -62,7 +63,7 @@ userRouter.post("/login", async (req, res) => {
             return;
         }
         const token = jwt.sign({
-            id: existingUser._id.toString()
+            userId: existingUser._id
         }, JWT_SECRET);
         res.json({
             message: "User logged in",
@@ -73,6 +74,50 @@ userRouter.post("/login", async (req, res) => {
         return res.status(500).json({
             message: "Internal server error, failed to login"
         });
+    }
+});
+userRouter.get("/profile", authMiddleware, async (req, res) => {
+    try {
+        const profile = await userModel.findOne({
+            _id: req.userId
+        });
+        res.status(200).json({
+            message: "Welcome",
+            profile
+        });
+    }
+    catch (err) {
+        return res.status(500).json({ message: "Internal server error, failed to find your profile" });
+    }
+});
+userRouter.put("/update", authMiddleware, async (req, res) => {
+    const username = req.body.username;
+    const email = req.body.email;
+    const password = req.body.password;
+    const avatar = req.body.avatar;
+    try {
+        const user = await userModel.findById(req.userId).select("+password");
+        if (!user) {
+            return res.status(404).json({
+                message: "user not found"
+            });
+        }
+        const hashedPassword = await bcrypt.hash(password, user.password);
+        const updatedUser = await userModel.findByIdAndUpdate(req.userId, {
+            username,
+            email,
+            password: hashedPassword,
+            avatar
+        }, {
+            new: true
+        }).select("-password");
+        res.status(200).json({
+            message: "User information updated",
+            updatedUser
+        });
+    }
+    catch (err) {
+        return res.status(500).json({ message: "Internal server error, failed to update information" });
     }
 });
 //# sourceMappingURL=userRoute.js.map
