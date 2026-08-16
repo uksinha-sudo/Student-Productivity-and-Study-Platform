@@ -27,3 +27,9 @@ I will be building this site slowly, version by version and improve it everyday
 -> fixed the DB Schema bug in Subject Schema
 
 -> updated the delete enpoint code of userRoute, it will now delete all the subjects related to the particular user, instead of leaving all those subjects and notes permanently useless in database.
+
+
+-> added endpoint to create a new note related to the particular subject
+
+-> updated the delete endpoint of subjecRoute, it will not delete all the notes related to the particular subject, instead of leaving all those notes abandoned in Database permanently.
+
