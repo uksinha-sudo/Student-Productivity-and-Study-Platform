@@ -14,4 +14,4 @@ I will be building this site slowly, version by version and improve it everyday
 
 -> added profile update enpoint for user
 
--> added account /delete endpoint for user
+-> added account /delete endpoint for user.
