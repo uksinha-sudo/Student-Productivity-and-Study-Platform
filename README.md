@@ -26,4 +26,4 @@ I will be building this site slowly, version by version and improve it everyday
 
 -> fixed the DB Schema bug in Subject Schema
 
--> updated the delete enpoint code of userRoute, it will now delete all the subjects related to the particular user, instead of leaving all those subjects and notes permanently useless in dabtabase.
+-> updated the delete enpoint code of userRoute, it will now delete all the subjects related to the particular user, instead of leaving all those subjects and notes permanently useless in database.
