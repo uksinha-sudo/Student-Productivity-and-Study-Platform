@@ -19,12 +19,14 @@ import cors from 'cors';
 import mongoose from "mongoose";
 import { userRouter } from "./routes/userRoute.js";
 import { subjectRouter } from "./routes/subjectRoute.js";
+import { noteRouter } from "./routes/noteRoute.js";
 const app = express();
 app.use(express.json());
 app.use(cors());
 // all the routes connections
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/subject", subjectRouter);
+app.use("/api/v1/note", noteRouter);
 //connection to database
 async function connectToDB() {
     const mongo_url = process.env.MONGO_URL;

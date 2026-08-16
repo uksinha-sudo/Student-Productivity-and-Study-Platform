@@ -1,10 +1,11 @@
 // all the user related CRUD operations here in this TS file
 import { Router } from "express";
 import bcrypt from 'bcrypt';
-import { userModel } from "../Schema/db.js";
+import { subjectModel, userModel } from "../Schema/db.js";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import authMiddleware from "../middleware.js";
+import mongoose from "mongoose";
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 export const userRouter = Router();
@@ -128,6 +129,9 @@ userRouter.delete("/delete", authMiddleware, async (req, res) => {
                 message: "User not found"
             });
         }
+        await subjectModel.deleteMany({
+            userId: new mongoose.Types.ObjectId(req.userId)
+        });
         res.status(200).json({ message: "Account Deleted" });
     }
     catch (error) {

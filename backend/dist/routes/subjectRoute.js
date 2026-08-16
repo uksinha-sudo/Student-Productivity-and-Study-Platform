@@ -1,7 +1,7 @@
 // All the subject related CRUD here
 import { Router } from 'express';
 import authMiddleware from '../middleware.js';
-import { subjectModel } from '../Schema/db.js';
+import { noteModel, subjectModel } from '../Schema/db.js';
 import mongoose from 'mongoose';
 export const subjectRouter = Router();
 subjectRouter.post("/addSubject", authMiddleware, async (req, res) => {
@@ -82,20 +82,39 @@ subjectRouter.put("/update/:subjectId", authMiddleware, async (req, res) => {
     });
 });
 subjectRouter.delete("/delete/:subjectId", authMiddleware, async (req, res) => {
-    const subjectId = req.params.subjectId;
+    const { subjectId } = req.params;
     try {
-        const findSubject = await subjectModel.findById({ _id: subjectId });
+        if (!mongoose.Types.ObjectId.isValid(subjectId)) {
+            return res.status(400).json({
+                message: "Invalid subject ID"
+            });
+        }
+        if (!req.userId) {
+            return res.status(401).json({
+                message: "Unauthorized"
+            });
+        }
+        const findSubject = await subjectModel.findOne({
+            _id: subjectId,
+            userId: new mongoose.Types.ObjectId(req.userId)
+        });
         if (!findSubject) {
             return res.status(404).json({
                 message: "Couldn't find subject"
             });
         }
-        ;
-        await subjectModel.findByIdAndDelete({ _id: subjectId });
-        res.status(200).json({ message: "Deleted Subject" });
+        await noteModel.deleteMany({
+            subjectId: new mongoose.Types.ObjectId(subjectId)
+        });
+        await subjectModel.findByIdAndDelete(subjectId);
+        res.status(200).json({
+            message: "Deleted Subject"
+        });
     }
     catch (error) {
-        return res.status(500).json({ message: "Internal server error, failed to delete subject" });
+        return res.status(500).json({
+            message: "Internal server error, failed to delete subject"
+        });
     }
 });
 //# sourceMappingURL=subjectRoute.js.map
