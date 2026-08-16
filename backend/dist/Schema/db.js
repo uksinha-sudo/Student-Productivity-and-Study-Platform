@@ -30,8 +30,8 @@ const userSchema = new mongoose.Schema({
 const subjectSchema = new mongoose.Schema({
     subject: {
         type: String, // to-do => Make site say (subject already exists) if the has already created one with same name(probably check => unique: true)
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
-    }
+    },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
 });
 const noteSchema = new mongoose.Schema({
     title: {
@@ -40,7 +40,7 @@ const noteSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    subjectId: { type: mongoose.Schema.Types.ObjectId, ref: "Subject" }
+    subjectId: { type: mongoose.Schema.Types.ObjectId, ref: "Subject", required: true }
 });
 export const userModel = mongoose.model("User", userSchema);
 export const subjectModel = mongoose.model("Subject", subjectSchema);

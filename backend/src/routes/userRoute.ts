@@ -2,10 +2,11 @@
 
 import { Router } from "express";
 import bcrypt from 'bcrypt';
-import { userModel } from "../Schema/db.js";
+import { subjectModel, userModel } from "../Schema/db.js";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import authMiddleware from "../middleware.js";
+import mongoose from "mongoose";
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -148,15 +149,19 @@ userRouter.put("/update", authMiddleware, async(req, res) => {
 userRouter.delete("/delete", authMiddleware, async(req, res) => {
     try{
         const deletedUser = await userModel.findByIdAndDelete(req.userId);
-
+        
         if(!deletedUser){
             return res.status(404).json({
                 message:"User not found"
             })
         }
         
+        await subjectModel.deleteMany({
+            userId: new mongoose.Types.ObjectId(req.userId)
+        });
+        
         res.status(200).json({message:"Account Deleted"});
     } catch(error){
         res.status(500).json({message:"Internal server error, failed to delete account"})
     }
-})
+});
