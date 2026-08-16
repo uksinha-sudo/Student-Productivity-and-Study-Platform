@@ -16,13 +16,13 @@ I will be building this site slowly, version by version and improve it everyday
 
 -> added account /delete endpoint for user.
 
--> Added enpoint to add subject
+-> Added endpoint to add subject
 
--> Added enpoints to get all subjects and a particular subject
+-> Added endpoints to get all subjects and a particular subject
 
--> added enpoint to update subject
+-> added endpoint to update subject
 
--> added enpoint to delete a subject
+-> added endpoint to delete a subject
 
 -> fixed the DB Schema bug in Subject Schema
 
