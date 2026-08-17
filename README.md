@@ -33,3 +33,8 @@ I will be building this site slowly, version by version and improve it everyday
 
 -> updated the delete endpoint of subjecRoute, it will not delete all the notes related to the particular subject, instead of leaving all those notes abandoned in Database permanently.
 
+-> added endpoint to fetch a particular note in a subject
+
+-> added endpoint to fetch all the notes of particular subject
+
+-> added endpoint to update Notes
