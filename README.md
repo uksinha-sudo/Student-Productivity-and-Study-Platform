@@ -38,3 +38,5 @@ I will be building this site slowly, version by version and improve it everyday
 -> added endpoint to fetch all the notes of particular subject
 
 -> added endpoint to update Notes
+
+-> added endpoint to delete a particular note
