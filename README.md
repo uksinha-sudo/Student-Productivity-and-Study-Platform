@@ -44,3 +44,7 @@ I will be building this site slowly, version by version and improve it everyday
 -> Created frontend for Sign up endpoint with toasts
 
 -> Updated back-end status codes and fixed some bugs
+
+-> added login front-end and functionality
+
+-> created toats in all, and fixed some bugs

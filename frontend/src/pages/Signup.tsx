@@ -17,9 +17,20 @@ export const SignUp = () => {
 
     const signUp = async () => {
         setLoading(true);
-        const username = usernameRef.current?.value;
-        const email = emailRef.current?.value;
-        const password = passwordRef.current?.value;
+        const username = usernameRef.current?.value?.trim() ?? "";
+        const email = emailRef.current?.value?.trim() ?? "";
+        const password = passwordRef.current?.value?.trim() ?? "";
+
+        if(!username || !email || !password) {
+            toast("All fields are Required, Please fill them out.");
+            return;
+        }
+
+        if(password.length < 6){
+            toast("Password too small, Minimum 6 letters are required.");
+            return;
+        }
+
         try {
 
             const response = await axios.post(`${BACKEND_URL}/user/signup`, {
@@ -55,7 +66,7 @@ export const SignUp = () => {
                     <div className="flex flex-col gap-2">
                         <Input reference={usernameRef} lable="Username" placeholder="John Doe" styles="p-2 bg-[#cadcea]" type="text" />
                         <Input reference={emailRef} lable="Email" placeholder="John@example.com" styles="p-2 bg-[#cadcea]" type="email" />
-                        <Input reference={passwordRef} lable="Username" styles="p-2 bg-[#cadcea]" type="password" />
+                        <Input reference={passwordRef} lable="Password" styles="p-2 bg-[#cadcea]" type="password" />
                     </div>
                     <div className="flex h-20 items-center justify-center">
                         <Button lable="SUBMIT" style="p-2 px-4 rounded" disable={loading === true ? true : false} onClick={signUp} />
@@ -63,7 +74,7 @@ export const SignUp = () => {
                 </div>
             </div>
             <ToastContainer
-                position="top-right"
+                position="bottom-right"
                 autoClose={5000}
                 hideProgressBar={false}
                 newestOnTop={false}
