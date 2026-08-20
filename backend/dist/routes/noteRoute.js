@@ -111,14 +111,20 @@ noteRouter.put("/update/:noteId", authMiddleware, async (req, res) => {
 });
 noteRouter.delete("/delete/:noteId", authMiddleware, async (req, res) => {
     const noteId = req.params.noteId;
-    const findNote = await noteModel.findById({ _id: noteId });
-    if (!findNote) {
-        return res.status(404).json({ message: "Couldn't Find note" });
+    try {
+        const findNote = await noteModel.findById({ _id: noteId });
+        if (!findNote) {
+            return res.status(404).json({ message: "Couldn't Find note" });
+        }
+        ;
+        const deletedNote = await noteModel.findOneAndDelete({ _id: noteId });
+        res.status(200).json({
+            message: "Deleted Successfully!"
+        });
+    }
+    catch (error) {
+        return res.status(500).json({ message: "Internal server error, failed to delete note" });
     }
     ;
-    const deletedNote = await noteModel.findOneAndDelete({ _id: noteId });
-    res.status(200).json({
-        message: "Deleted Successfully!"
-    });
 });
 //# sourceMappingURL=noteRoute.js.map

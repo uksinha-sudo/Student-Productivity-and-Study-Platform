@@ -40,3 +40,7 @@ I will be building this site slowly, version by version and improve it everyday
 -> added endpoint to update Notes
 
 -> added endpoint to delete a particular note
+
+-> Created frontend for Sign up endpoint with toasts
+
+-> Updated back-end status codes and fixed some bugs

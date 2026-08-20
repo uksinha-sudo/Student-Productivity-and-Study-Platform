@@ -19,7 +19,7 @@ userRouter.post("/signup", async (req, res) => {
             email
         });
         if (existingUser) {
-            return res.status(402).json({
+            return res.status(409).json({
                 message: "Email already in use"
             });
         }
